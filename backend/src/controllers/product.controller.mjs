@@ -101,10 +101,11 @@ const makeOrder = asyncHandler(async (req, res) => {
 		address: address,
 		date: new Date(),
 	});
-	const invoicePDF = await generateInvoicePDF(order);
+	const invoicePDF = await generateInvoicePDF(order, user);
 	if (!invoicePDF) {
 		throw new ApiError(500, "Failed to generate Invoice document");
 	}
+
 	order.invoicePDF = invoicePDF;
 	order.save({ validateBeforeSave: false });
 	user.orders.push(order);
@@ -188,7 +189,7 @@ const addReview = asyncHandler(async (req, res) => {
 	const { id } = req.params;
 	const { review, rating } = req.body;
 	if (!review) {
-		throw new ApiError(404, "Empty shouldn't be empty");
+		throw new ApiError(404, "Review shouldn't be empty");
 	}
 	if (!rating) {
 		throw new ApiError(404, "Please provide rating");
@@ -234,8 +235,11 @@ const downloadInvoice = asyncHandler(async (req, res) => {
 	return res
 		.status(200)
 		.json(
-			new ApiResponse(200, { invoice: order.invoicePDF }),
-			"Invoice fetched successfully"
+			new ApiResponse(
+				200,
+				{ invoice: order.invoicePDF },
+				"Invoice fetched successfully"
+			)
 		);
 });
 

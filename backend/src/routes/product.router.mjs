@@ -24,7 +24,7 @@ router.route("/get-some").get(getSomeProducts);
 router.route("/buy/:id").post(verifyJWT, makeOrder);
 router.route("/add-to-cart/:id").post(verifyJWT, addToCart);
 router.route("/search").get(search);
-router.route("/add-review").post(verifyJWT, addReview);
+router.route("/add-review/:id").post(verifyJWT, addReview);
 router.route("/download-invoice/:orderID").get(verifyJWT, downloadInvoice);
 
 export default router;

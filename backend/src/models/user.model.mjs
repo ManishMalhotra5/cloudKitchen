@@ -42,18 +42,8 @@ const userSchema = new mongoose.Schema(
 			default: false,
 		},
 		address: {
-			state: {
-				type: String,
-				required: true,
-			},
-			city: {
-				type: String,
-				required: true,
-			},
-			pincode: {
-				type: String,
-				required: true,
-			},
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Address",
 		},
 		cart: [
 			{
@@ -61,12 +51,10 @@ const userSchema = new mongoose.Schema(
 				ref: "Product",
 			},
 		],
-		bought: [
+		orders: [
 			{
-				product: {
-					type: mongoose.Schema.Types.ObjectId,
-					ref: "Product",
-				},
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Order",
 			},
 		],
 	},
